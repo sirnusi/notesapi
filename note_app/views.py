@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .serializers import NoteSerializer, CategorySerializer
 from .models import Note, Category
+from .permissions import AdminOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
@@ -27,3 +28,4 @@ class CategoryListAV(ListCreateAPIView):
 class CategoryDetailAV(RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [AdminOrReadOnly]
