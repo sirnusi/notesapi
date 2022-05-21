@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .serializers import NoteSerializer, CategorySerializer
 from .models import Note, Category
-from .permissions import AdminOrReadOnly
+from .permissions import AdminOrReadOnly, NoteOwnerOrReadOnly, AuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
@@ -17,12 +17,14 @@ class NoteListAV(ListCreateAPIView):
 class NoteDetailAV(RetrieveUpdateDestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+    permission_classes = [NoteOwnerOrReadOnly]
 
 
 
 class CategoryListAV(ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [AuthenticatedOrReadOnly]
     
 
 class CategoryDetailAV(RetrieveUpdateDestroyAPIView):
